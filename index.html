@@ -130,18 +130,57 @@ nav{
   font-weight: 700;
 }
 
-#hero{min-height:100vh;display:flex;align-items:center;padding:6rem 2.5rem 4rem;position:relative;}
+/* --- HERO SECTION RE-DESIGN (Si sawirka iyo qoraalku isku garab istaagaan) --- */
+#hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:6rem 2.5rem 4rem;position:relative;gap:2rem;}
 .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);top:-80px;left:-80px;pointer-events:none;}
-.hero-content{position:relative;z-index:1;max-width:680px;}
+.hero-content{position:relative;z-index:1;max-width:650px;flex:1;}
 .hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent);border:1px solid rgba(0,229,160,0.3);padding:5px 14px;border-radius:100px;margin-bottom:1.5rem;}
 .hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.hero-name{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:800;line-height:1.05;margin-bottom:0.5rem;letter-spacing:-0.02em;}
+.hero-name{font-family:'Syne',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.05;margin-bottom:0.5rem;letter-spacing:-0.02em;}
 .hero-name .accent{color:var(--accent);}
 .hero-role{font-family:'IBM Plex Mono',monospace;font-size:0.95rem;color:var(--muted);margin-bottom:1.2rem;}
 .hero-role span{color:var(--accent2);}
 .hero-desc{font-size:1rem;color:var(--muted);max-width:480px;margin-bottom:2rem;line-height:1.8;}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+
+/* Sawirka Goobada ah */
+.hero-avatar-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+.hero-avatar {
+  width: clamp(250px, 30vw, 360px);
+  height: clamp(250px, 30vw, 360px);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--border);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.hero-avatar:hover {
+  border-color: var(--accent);
+  transform: scale(1.02);
+}
+
+/* Shaashadaha yaryar (Mobile) in sawirku kor maro qoraalkuna hoos u dhaco */
+@media (max-width: 850px) {
+  #hero {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding-top: 4rem;
+  }
+  .hero-desc {
+    margin: 0 auto 2rem;
+  }
+  .hero-btns {
+    justify-content: center;
+  }
+}
 
 .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:0.9rem;font-family:'Cairo',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;border:none;}
 .btn-primary{background:var(--accent);color:#000;}
@@ -211,7 +250,6 @@ footer span{color:var(--accent);}
       <li><a href="#contact" data-i18n="nav_contact">تواصل</a></li>
     </ul>
     
-    <!-- Meeshii Luqadda oo laga dhigay Dropdown Menu -->
     <div class="lang-dropdown" id="langDropdown">
       <button class="lang-drop-btn" onclick="toggleLangMenu(event)" id="currentLangBtn">AR</button>
       <ul class="lang-menu">
@@ -236,6 +274,10 @@ footer span{color:var(--accent);}
       <a href="#projects" class="btn btn-primary" data-i18n="hero_btn1">← مشاريعي</a>
       <a href="#contact" class="btn btn-outline" data-i18n="hero_btn2">تواصل معي</a>
     </div>
+  </div>
+  
+  <div class="hero-avatar-container">
+    <img src="image_f3bfe0.jpg" alt="Omar Shafi" class="hero-avatar">
   </div>
 </section>
 
