@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar Shafi — Web Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
+  --accent:#00e5a0;--accent2:#00b8ff;
+  --text:#f0f0f0;--muted:#888;
+  --border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.03);
+}
+[data-theme="light"] {
+  --bg:#f8f8f6;--bg2:#fff;--bg3:#f0f0ec;
+  --accent:#0a7c52;--accent2:#0057a8;
+  --text:#111;--muted:#666;
+  --border:rgba(0,0,0,0.08);--card:rgba(0,0,0,0.02);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+
+/* Animation-ka ruxitaanka marka luqada la doorato */
+@keyframes pageBounce {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.98); opacity: 0.85; }
+}
+.page-changed {
+  animation: pageBounce 0.4s ease-in-out;
+}
+
+nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2.5rem;
+  border-bottom:1px solid var(--border);
+  background:var(--bg);
+}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-links{display:flex;gap:1.5rem;list-style:none;}
+.nav-links a{font-size:0.85rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--accent);}
+
+.theme-toggle{
+  display:flex;align-items:center;gap:6px;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:100px;padding:5px 12px;cursor:pointer;
+  font-size:0.8rem;color:var(--muted);transition:all 0.2s;
+}
+.theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+
+/* --- LUQADA DROPDOWN STYLE --- */
+.lang-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.lang-drop-btn {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+.lang-drop-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.lang-drop-btn::after {
+  content: '▼';
+  font-size: 0.6rem;
+  transition: transform 0.2s;
+}
+.lang-dropdown.active .lang-drop-btn::after {
+  transform: rotate(180deg);
+}
+.lang-menu {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  list-style: none;
+  min-width: 100px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 200;
+}
+/* Haddii dalku yahay RTL (Carabi) bidix u rux menu-ga */
+[dir="rtl"] .lang-menu {
+  right: auto;
+  left: 0;
+}
+.lang-dropdown.active .lang-menu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.lang-item {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+.lang-item:hover {
+  background: rgba(0, 229, 160, 0.1);
+  color: var(--accent);
+}
+.lang-item.active {
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+#hero{min-height:100vh;display:flex;align-items:center;padding:6rem 2.5rem 4rem;position:relative;}
+.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);top:-80px;left:-80px;pointer-events:none;}
+.hero-content{position:relative;z-index:1;max-width:680px;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent);border:1px solid rgba(0,229,160,0.3);padding:5px 14px;border-radius:100px;margin-bottom:1.5rem;}
+.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.hero-name{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:800;line-height:1.05;margin-bottom:0.5rem;letter-spacing:-0.02em;}
+.hero-name .accent{color:var(--accent);}
+.hero-role{font-family:'IBM Plex Mono',monospace;font-size:0.95rem;color:var(--muted);margin-bottom:1.2rem;}
+.hero-role span{color:var(--accent2);}
+.hero-desc{font-size:1rem;color:var(--muted);max-width:480px;margin-bottom:2rem;line-height:1.8;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:0.9rem;font-family:'Cairo',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;border:none;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+
+section{padding:4.5rem 2.5rem;border-top:1px solid var(--border);}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--accent);margin-bottom:4px;}
+.sec-title{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:2rem;}
+
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:all 0.22s;position:relative;overflow:hidden;}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.22s;}
+.pcard:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-3px);}
+.pcard:hover::before{opacity:1;}
+.pcard-num{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--accent);margin-bottom:0.8rem;}
+.pcard-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;}
+.pcard-desc{font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;}
+.tech-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;}
+.tech-tag{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;padding:2px 9px;border-radius:4px;background:rgba(0,229,160,0.07);color:var(--accent);border:1px solid rgba(0,229,160,0.15);}
+.pcard-footer{display:flex;align-items:center;justify-content:space-between;}
+.plink{font-size:0.8rem;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;}
+.plink:hover{color:var(--accent);}
+.del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.78rem;padding:4px 8px;border-radius:4px;transition:color 0.2s;}
+.del-btn:hover{color:#ff5555;}
+
+.add-form{border:1px dashed rgba(0,229,160,0.2);border-radius:14px;padding:1.4rem;background:rgba(0,229,160,0.02);margin-top:1.5rem;}
+.add-form-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-grid .full{grid-column:1/-1;}
+input,textarea{width:100%;padding:9px 13px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Cairo',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+input:focus,textarea:focus{border-color:rgba(0,229,160,0.4);}
+textarea{height:75px;resize:none;}
+
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;}
+.sgroup{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;}
+.sgroup-name{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--accent2);margin-bottom:1.1rem;display:flex;align-items:center;gap:7px;}
+.srow{margin-bottom:12px;}
+.slabel{display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:5px;color:var(--text);}
+.spct{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);}
+.strack{height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
+.sfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;}
+.citem{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;display:flex;align-items:center;gap:0.9rem;transition:all 0.2s;}
+.citem:hover{border-color:rgba(0,229,160,0.3);}
+.cicon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.clabel{font-size:0.75rem;color:var(--muted);margin-bottom:2px;}
+.cval{font-size:0.88rem;font-weight:500;}
+.cedit{margin-right:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.95rem;padding:4px;transition:color 0.2s;}
+.cedit:hover{color:var(--accent);}
+
+footer{text-align:center;padding:1.8rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.78rem;font-family:'IBM Plex Mono',monospace;}
+footer span{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Omar<span>.</span></a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#projects" data-i18n="nav_projects">المشاريع</a></li>
+      <li><a href="#skills" data-i18n="nav_skills">المهارات</a></li>
+      <li><a href="#contact" data-i18n="nav_contact">تواصل</a></li>
+    </ul>
+    
+    <!-- Meeshii Luqadda oo laga dhigay Dropdown Menu -->
+    <div class="lang-dropdown" id="langDropdown">
+      <button class="lang-drop-btn" onclick="toggleLangMenu(event)" id="currentLangBtn">AR</button>
+      <ul class="lang-menu">
+        <li class="lang-item active" onclick="setLang('ar')">AR</li>
+        <li class="lang-item" onclick="setLang('so')">SO</li>
+        <li class="lang-item" onclick="setLang('en')">EN</li>
+      </ul>
+    </div>
+
+    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 Dark</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag" data-i18n="hero_badge">متاح للعمل</div>
+    <h1 class="hero-name">Omar<br><span class="accent">Shafi</span></h1>
+    <p class="hero-role">// <span>Web Developer</span></p>
+    <p class="hero-desc" data-i18n="hero_desc">أبني مواقع وتطبيقات ويب احترافية بأحدث التقنيات. شغفي هو تحويل الأفكار إلى منتجات رقمية متميزة.</p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn btn-primary" data-i18n="hero_btn1">← مشاريعي</a>
+      <a href="#contact" class="btn btn-outline" data-i18n="hero_btn2">تواصل معي</a>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-num">// 01</div>
+  <h2 class="sec-title" data-i18n="sec_projects">المشاريع</h2>
+  <div class="projects-grid" id="pg"></div>
+  <div class="add-form">
+    <div class="add-form-title" data-i18n="add_project">+ أضف مشروعك</div>
+    <div class="form-grid">
+      <input id="pt" data-i18n-ph="ph_name" placeholder="اسم المشروع *" />
+      <input id="ptc" data-i18n-ph="ph_tech" placeholder="التقنيات (HTML, CSS, JS)" />
+      <textarea id="pd" class="full" data-i18n-ph="ph_desc" placeholder="وصف المشروع"></textarea>
+      <input id="pl" class="full" data-i18n-ph="ph_link" placeholder="رابط المشروع (اختياري)" />
+    </div>
+    <div style="margin-top:0.9rem">
+      <button class="btn btn-primary" onclick="addProject()" data-i18n="btn_add">إضافة</button>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-num">// 02</div>
+  <h2 class="sec-title" data-i18n="sec_skills">المهارات</h2>
+  <div class="skills-grid">
+    <div class="sgroup">
+      <div class="sgroup-name" data-i18n="sk_basics">⬡ الأساسيات</div>
+      <div class="srow"><div class="slabel"><span>HTML5</span><span class="spct">90%</span></div><div class="strack"><div class="sfill" style="width:90%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>CSS3</span><span class="spct">85%</span></div><div class="strack"><div class="sfill" style="width:85%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>JavaScript</span><span class="spct">80%</span></div><div class="strack"><div class="sfill" style="width:80%"></div></div></div>
+    </div>
+    <div class="sgroup">
+      <div class="sgroup-name" data-i18n="sk_frameworks">⬡ الأطر والمكتبات</div>
+      <div class="srow"><div class="slabel"><span>React</span><span class="spct">75%</span></div><div class="strack"><div class="sfill" style="width:75%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>Node.js</span><span class="spct">70%</span></div><div class="strack"><div class="sfill" style="width:70%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>Tailwind CSS</span><span class="spct">80%</span></div><div class="strack"><div class="sfill" style="width:80%"></div></div></div>
+    </div>
+    <div class="sgroup">
+      <div class="sgroup-name" data-i18n="sk_tools">⬡ الأدوات</div>
+      <div class="srow"><div class="slabel"><span>Git / GitHub</span><span class="spct">75%</span></div><div class="strack"><div class="sfill" style="width:75%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>VS Code</span><span class="spct">90%</span></div><div class="strack"><div class="sfill" style="width:90%"></div></div></div>
+      <div class="srow"><div class="slabel"><span>Figma</span><span class="spct">65%</span></div><div class="strack"><div class="sfill" style="width:65%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-num">// 03</div>
+  <h2 class="sec-title" data-i18n="sec_contact">تواصل معي</h2>
+  <div class="contact-grid">
+    <div class="citem">
+      <div class="cicon" style="background:rgba(37,211,102,0.1)">📱</div>
+      <div>
+        <div class="clabel" data-i18n="c_whatsapp">واتساب</div>
+        <div class="cval" id="wa-val" data-i18n="c_tap">اضغط للتعديل</div>
+      </div>
+      <button class="cedit" onclick="editField('wa-val','wa_label')" title="تعديل">✎</button>
+    </div>
+    <div class="citem">
+      <div class="cicon" style="background:rgba(0,184,255,0.1)">📞</div>
+      <div>
+        <div class="clabel" data-i18n="c_phone">الهاتف</div>
+        <div class="cval" id="ph-val" data-i18n="c_tap">اضغط للتعديل</div>
+      </div>
+      <button class="cedit" onclick="editField('ph-val','ph_label')" title="تعديل">✎</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Omar <span>Shafi</span> · 2026</p>
+</footer>
+
+<script>
+const i18n = {
+  ar:{
+    dir:'rtl',lang:'ar',
+    nav_projects:'المشاريع',nav_skills:'المهارات',nav_contact:'تواصل',
+    hero_badge:'متاح للعمل',hero_desc:'أبني مواقع وتطبيقات ويب احترافية بأحدث التقنيات. شغفي هو تحويل الأفكار إلى منتجات رقمية متميزة.',
+    hero_btn1:'← مشاريعي',hero_btn2:'تواصل معي',
+    sec_projects:'المشاريع',sec_skills:'المهارات',sec_contact:'تواصل معي',
+    add_project:'+ أضف مشروعك',btn_add:'إضافة',
+    ph_name:'اسم المشروع *',ph_tech:'التقنيات (HTML, CSS)',ph_desc:'وصف المشروع',ph_link:'رابط المشروع (اختياري)',
+    sk_basics:'⬡ الأساسيات',sk_frameworks:'⬡ الأطر والمكتبات',sk_tools:'⬡ الأدوات',
+    c_whatsapp:'واتساب',c_phone:'الهاتف',c_tap:'اضغط للتعديل',
+    wa_label:'رقم واتساب',ph_label:'رقم الهاتف',
+    no_projects:'لم تُضف أي مشاريع بعد — أضف أول مشروع من النموذج أدناه.',
+    view_project:'عرض المشروع',delete:'حذف',
+    theme_dark:'🌙 داكن',theme_light:'☀️ فاتح'
+  },
+  so:{
+    dir:'ltr',lang:'so',
+    nav_projects:'Mashaariicd',nav_skills:'Xirfadaha',nav_contact:'Xiriir',
+    hero_badge:'Diyaar shaqo',hero_desc:'Waxaan dhisaa websiteyo iyo apps xirfadleh. Xiisahaygu waa u rogida fikradaha alaabooyin dhijitaal ah oo heer sare leh.',
+    hero_btn1:'← Mashaariicdayda',hero_btn2:'Ii xiriir',
+    sec_projects:'Mashaariicdayda',sec_skills:'Xirfadaha',sec_contact:'Ii Xiriir',
+    add_project:'+ Ku dar mashroc',btn_add:'Kudar',
+    ph_name:'Magaca mashrooca *',ph_tech:'Teknoolojiyadaha (HTML, CSS)',ph_desc:'Sharaxaada mashrooca',ph_link:'Xiriirka mashrooca (ikhtiyaari)',
+    sk_basics:'⬡ Aasaaska',sk_frameworks:'⬡ Frameworks',sk_tools:'⬡ Qalab',
+    c_whatsapp:'WhatsApp',c_phone:'Telefoon',c_tap:'Taabo si aad u tafatirto',
+    wa_label:'Nambarkaaga WhatsApp',ph_label:'Nambarkaaga telefoonka',
+    no_projects:'Weli mashroc kuma darin — ku dar mashrocaaga koowaad foomka hoose.',
+    view_project:'Arag mashrooca',delete:'Tirtir',
+    theme_dark:'🌙 Madow',theme_light:'☀️ Cad'
+  },
+  en:{
+    dir:'ltr',lang:'en',
+    nav_projects:'Projects',nav_skills:'Skills',nav_contact:'Contact',
+    hero_badge:'Available for work',hero_desc:'I build professional websites and web apps with modern technologies. My passion is turning ideas into outstanding digital products.',
+    hero_btn1:'← My Projects',hero_btn2:'Contact Me',
+    sec_projects:'Projects',sec_skills:'Skills',sec_contact:'Contact Me',
+    add_project:'+ Add a Project',btn_add:'Add',
+    ph_name:'Project name *',ph_tech:'Technologies (HTML, CSS)',ph_desc:'Project description',ph_link:'Project link (optional)',
+    sk_basics:'⬡ Fundamentals',sk_frameworks:'⬡ Frameworks & Libraries',sk_tools:'⬡ Tools',
+    c_whatsapp:'WhatsApp',c_phone:'Phone',c_tap:'Tap to edit',
+    wa_label:'WhatsApp number',ph_label:'Phone number',
+    no_projects:'No projects added yet — add your first project from the form below.',
+    view_project:'View Project',delete:'Delete',
+    theme_dark:'🌙 Dark',theme_light:'☀️ Light'
+  }
+};
+
+let lang = 'ar';
+let darkMode = true;
+let projects = [];
+
+function t(key){ return i18n[lang][key] || key; }
+
+function applyLang(){
+  const cfg = i18n[lang];
+  document.documentElement.setAttribute('lang', cfg.lang);
+  document.documentElement.setAttribute('dir', cfg.dir);
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if(i18n[lang][k]) el.textContent = i18n[lang][k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const k = el.getAttribute('data-i18n-ph');
+    if(i18n[lang][k]) el.placeholder = i18n[lang][k];
+  });
+  document.getElementById('wa-val').textContent = t('c_tap');
+  document.getElementById('ph-val').textContent = t('c_tap');
+  renderProjects();
+}
+
+// Menu-ga luqadaha inuu furmo ama xirmo
+function toggleLangMenu(e) {
+  e.stopPropagation();
+  document.getElementById('langDropdown').classList.toggle('active');
+}
+
+function setLang(l){
+  lang = l;
+  
+  // Cusboonaysii badanka sare ee menu-ga muujinaya luqada firfircoon
+  document.getElementById('currentLangBtn').textContent = l.toUpperCase();
+  
+  // Bedel class-ka active ee liiska hoos u dhacaya
+  document.querySelectorAll('.lang-item').forEach(item => {
+    item.classList.remove('active');
+    if(item.textContent === l.toUpperCase()) item.classList.add('active');
+  });
+  
+  // Xir menu-ga doorashada kadib
+  document.getElementById('langDropdown').classList.remove('active');
+  
+  // Codso luqadii cusbayd
+  applyLang();
+
+  // ISKU SOO KICI LIFAAQ (Bounce Effect) marka luqada la doorto
+  document.body.classList.remove('page-changed');
+  void document.body.offsetWidth; // JavaScript Trick si loogu celiyo animation-ka mar kale
+  document.body.classList.add('page-changed');
+}
+
+// Haddii meel ka baxsan menu-ga la taabo inuu xirmo
+window.addEventListener('click', () => {
+  document.getElementById('langDropdown').classList.remove('active');
+});
+
+function toggleTheme(){
+  darkMode = !darkMode;
+  document.documentElement.setAttribute('data-theme', darkMode ? '' : 'light');
+  const btn = document.getElementById('theme-btn');
+  btn.textContent = darkMode ? t('theme_dark') : t('theme_light');
+}
+
+function renderProjects(){
+  const grid = document.getElementById('pg');
+  if(!projects.length){
+    grid.innerHTML = `<p style="color:var(--muted);font-size:0.88rem;padding:0.5rem 0;grid-column:1/-1">${t('no_projects')}</p>`;
+    return;
+  }
+  grid.innerHTML = projects.map((p,i) => `
+    <div class="pcard">
+      <div class="pcard-num">// ${String(i+1).padStart(2,'0')}</div>
+      <div class="pcard-title">${p.title}</div>
+      <div class="pcard-desc">${p.desc}</div>
+      <div class="tech-list">${p.tech.split(',').map(x=>`<span class="tech-tag">${x.trim()}</span>`).join('')}</div>
+      <div class="pcard-footer">
+        ${p.link ? `<a href="${p.link}" target="_blank" class="plink">🔗 ${t('view_project')}</a>` : '<span></span>'}
+        <button class="del-btn" onclick="removeProject(${i})">✕ ${t('delete')}</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function addProject(){
+  const title = document.getElementById('pt').value.trim();
+  if(!title){ document.getElementById('pt').focus(); return; }
+  projects.push({
+    title,
+    desc: document.getElementById('pd').value.trim() || '—',
+    tech: document.getElementById('ptc').value.trim() || 'HTML, CSS, JS',
+    link: document.getElementById('pl').value.trim()
+  });
+  ['pt','pd','ptc','pl'].forEach(id => document.getElementById(id).value='');
+  renderProjects();
+}
+
+function removeProject(i){ projects.splice(i,1); renderProjects(); }
+
+function editField(fieldId, labelKey){
+  const val = prompt(t(labelKey) + ':');
+  if(val && val.trim()) document.getElementById(fieldId).textContent = val.trim();
+}
+
+applyLang();
+</script>
+</body>
+</html>
