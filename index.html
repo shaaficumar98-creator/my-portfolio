@@ -130,7 +130,7 @@ nav{
   font-weight: 700;
 }
 
-/* --- HERO SECTION RE-DESIGN (Si sawirka iyo qoraalku isku garab istaagaan) --- */
+/* --- HERO SECTION RE-DESIGN --- */
 #hero{min-height:100vh;display:flex;align-items:center;justify-content:space-between;padding:6rem 2.5rem 4rem;position:relative;gap:2rem;}
 .hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);top:-80px;left:-80px;pointer-events:none;}
 .hero-content{position:relative;z-index:1;max-width:650px;flex:1;}
@@ -167,7 +167,7 @@ nav{
   transform: scale(1.02);
 }
 
-/* Shaashadaha yaryar (Mobile) in sawirku kor maro qoraalkuna hoos u dhaco */
+/* Shaashadaha yaryar (Mobile) */
 @media (max-width: 850px) {
   #hero {
     flex-direction: column-reverse;
@@ -227,13 +227,11 @@ textarea{height:75px;resize:none;}
 .sfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
 
 .contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;}
-.citem{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;display:flex;align-items:center;gap:0.9rem;transition:all 0.2s;}
-.citem:hover{border-color:rgba(0,229,160,0.3);}
+.citem{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;display:flex;align-items:center;gap:0.9rem;transition:all 0.2s;text-decoration:none;color:inherit;}
+.citem:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-2px);}
 .cicon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
 .clabel{font-size:0.75rem;color:var(--muted);margin-bottom:2px;}
-.cval{font-size:0.88rem;font-weight:500;}
-.cedit{margin-right:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.95rem;padding:4px;transition:color 0.2s;}
-.cedit:hover{color:var(--accent);}
+.cval{font-size:0.88rem;font-weight:500;font-family:'IBM Plex Mono',monospace;}
 
 footer{text-align:center;padding:1.8rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.78rem;font-family:'IBM Plex Mono',monospace;}
 footer span{color:var(--accent);}
@@ -328,21 +326,26 @@ footer span{color:var(--accent);}
   <div class="sec-num">// 03</div>
   <h2 class="sec-title" data-i18n="sec_contact">تواصل معي</h2>
   <div class="contact-grid">
-    <div class="citem">
+    <a href="https://wa.me/252637950878" target="_blank" class="citem">
       <div class="cicon" style="background:rgba(37,211,102,0.1)">📱</div>
       <div>
         <div class="clabel" data-i18n="c_whatsapp">واتساب</div>
-        <div class="cval" id="wa-val" data-i18n="c_tap">اضغط للتعديل</div>
+        <div class="cval">0637950878</div>
       </div>
-      <button class="cedit" onclick="editField('wa-val','wa_label')" title="تعديل">✎</button>
-    </div>
-    <div class="citem">
+    </a>
+    <a href="tel:+252637950878" class="citem">
       <div class="cicon" style="background:rgba(0,184,255,0.1)">📞</div>
       <div>
         <div class="clabel" data-i18n="c_phone">الهاتف</div>
-        <div class="cval" id="ph-val" data-i18n="c_tap">اضغط للتعديل</div>
+        <div class="cval">0637950878</div>
       </div>
-      <button class="cedit" onclick="editField('ph-val','ph_label')" title="تعديل">✎</button>
+    </a>
+    <div class="citem">
+      <div class="cicon" style="background:rgba(0,229,160,0.1)">🌐</div>
+      <div>
+        <div class="clabel" data-i18n="c_webid">رقم الموقع</div>
+        <div class="cval">3054948</div>
+      </div>
     </div>
   </div>
 </section>
@@ -362,24 +365,22 @@ const i18n = {
     add_project:'+ أضف مشروعك',btn_add:'إضافة',
     ph_name:'اسم المشروع *',ph_tech:'التقنيات (HTML, CSS)',ph_desc:'وصف المشروع',ph_link:'رابط المشروع (اختياري)',
     sk_basics:'⬡ الأساسيات',sk_frameworks:'⬡ الأطر والمكتبات',sk_tools:'⬡ الأدوات',
-    c_whatsapp:'واتساب',c_phone:'الهاتف',c_tap:'اضغط للتعديل',
-    wa_label:'رقم واتساب',ph_label:'رقم الهاتف',
+    c_whatsapp:'واتساب',c_phone:'الهاتف',c_webid:'رقم الموقع',
     no_projects:'لم تُضف أي مشاريع بعد — أضف أول مشروع من النموذج أدناه.',
     view_project:'عرض المشروع',delete:'حذف',
     theme_dark:'🌙 داكن',theme_light:'☀️ فاتح'
   },
   so:{
     dir:'ltr',lang:'so',
-    nav_projects:'Mashaariicd',nav_skills:'Xirfadaha',nav_contact:'Xiriir',
+    nav_projects:'Mashaariicda',nav_skills:'Xirfadaha',nav_contact:'Xiriir',
     hero_badge:'Diyaar shaqo',hero_desc:'Waxaan dhisaa websiteyo iyo apps xirfadleh. Xiisahaygu waa u rogida fikradaha alaabooyin dhijitaal ah oo heer sare leh.',
     hero_btn1:'← Mashaariicdayda',hero_btn2:'Ii xiriir',
     sec_projects:'Mashaariicdayda',sec_skills:'Xirfadaha',sec_contact:'Ii Xiriir',
-    add_project:'+ Ku dar mashroc',btn_add:'Kudar',
+    add_project:'+ Ku dar mashruuc',btn_add:'Kudar',
     ph_name:'Magaca mashrooca *',ph_tech:'Teknoolojiyadaha (HTML, CSS)',ph_desc:'Sharaxaada mashrooca',ph_link:'Xiriirka mashrooca (ikhtiyaari)',
     sk_basics:'⬡ Aasaaska',sk_frameworks:'⬡ Frameworks',sk_tools:'⬡ Qalab',
-    c_whatsapp:'WhatsApp',c_phone:'Telefoon',c_tap:'Taabo si aad u tafatirto',
-    wa_label:'Nambarkaaga WhatsApp',ph_label:'Nambarkaaga telefoonka',
-    no_projects:'Weli mashroc kuma darin — ku dar mashrocaaga koowaad foomka hoose.',
+    c_whatsapp:'WhatsApp',c_phone:'Telefoon',c_webid:'Aqoonsiga Mareegta',
+    no_projects:'Weli mashruuc kuma darin — ku dar mashrocaaga koowaad foomka hoose.',
     view_project:'Arag mashrooca',delete:'Tirtir',
     theme_dark:'🌙 Madow',theme_light:'☀️ Cad'
   },
@@ -392,8 +393,7 @@ const i18n = {
     add_project:'+ Add a Project',btn_add:'Add',
     ph_name:'Project name *',ph_tech:'Technologies (HTML, CSS)',ph_desc:'Project description',ph_link:'Project link (optional)',
     sk_basics:'⬡ Fundamentals',sk_frameworks:'⬡ Frameworks & Libraries',sk_tools:'⬡ Tools',
-    c_whatsapp:'WhatsApp',c_phone:'Phone',c_tap:'Tap to edit',
-    wa_label:'WhatsApp number',ph_label:'Phone number',
+    c_whatsapp:'WhatsApp',c_phone:'Phone',c_webid:'Website ID',
     no_projects:'No projects added yet — add your first project from the form below.',
     view_project:'View Project',delete:'Delete',
     theme_dark:'🌙 Dark',theme_light:'☀️ Light'
@@ -418,12 +418,9 @@ function applyLang(){
     const k = el.getAttribute('data-i18n-ph');
     if(i18n[lang][k]) el.placeholder = i18n[lang][k];
   });
-  document.getElementById('wa-val').textContent = t('c_tap');
-  document.getElementById('ph-val').textContent = t('c_tap');
   renderProjects();
 }
 
-// Menu-ga luqadaha inuu furmo ama xirmo
 function toggleLangMenu(e) {
   e.stopPropagation();
   document.getElementById('langDropdown').classList.toggle('active');
@@ -431,29 +428,19 @@ function toggleLangMenu(e) {
 
 function setLang(l){
   lang = l;
-  
-  // Cusboonaysii badanka sare ee menu-ga muujinaya luqada firfircoon
   document.getElementById('currentLangBtn').textContent = l.toUpperCase();
-  
-  // Bedel class-ka active ee liiska hoos u dhacaya
   document.querySelectorAll('.lang-item').forEach(item => {
     item.classList.remove('active');
     if(item.textContent === l.toUpperCase()) item.classList.add('active');
   });
-  
-  // Xir menu-ga doorashada kadib
   document.getElementById('langDropdown').classList.remove('active');
-  
-  // Codso luqadii cusbayd
   applyLang();
 
-  // ISKU SOO KICI LIFAAQ (Bounce Effect) marka luqada la doorto
   document.body.classList.remove('page-changed');
-  void document.body.offsetWidth; // JavaScript Trick si loogu celiyo animation-ka mar kale
+  void document.body.offsetWidth; 
   document.body.classList.add('page-changed');
 }
 
-// Haddii meel ka baxsan menu-ga la taabo inuu xirmo
 window.addEventListener('click', () => {
   document.getElementById('langDropdown').classList.remove('active');
 });
@@ -499,11 +486,6 @@ function addProject(){
 }
 
 function removeProject(i){ projects.splice(i,1); renderProjects(); }
-
-function editField(fieldId, labelKey){
-  const val = prompt(t(labelKey) + ':');
-  if(val && val.trim()) document.getElementById(fieldId).textContent = val.trim();
-}
 
 applyLang();
 </script>
