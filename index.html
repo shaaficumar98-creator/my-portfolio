@@ -1,446 +1,874 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omar Shafi — Web Developer</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&family=Cairo:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;
-  --accent:#00e5a0;--accent2:#00b8ff;
-  --text:#f0f0f0;--muted:#888;
-  --border:rgba(255,255,255,0.08);--card:rgba(255,255,255,0.03);
-}
-[data-theme="light"] {
-  --bg:#f8f8f6;--bg2:#fff;--bg3:#f0f0ec;
-  --accent:#0a7c52;--accent2:#0057a8;
-  --text:#111;--muted:#666;
-  --border:rgba(0,0,0,0.08);--card:rgba(0,0,0,0.02);
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;transition:background 0.3s,color 0.3s;}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cumar Shaafi — مطور ويب</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet" />
 
-/* Animation-ka ruxitaanka marka luqada la doorato */
-@keyframes pageBounce {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(0.98); opacity: 0.85; }
-}
-.page-changed {
-  animation: pageBounce 0.4s ease-in-out;
-}
+  <!-- ============================================================
+       CSS
+  ============================================================ -->
+  <style>
+    :root {
+      --c-bg:       #07080f;
+      --c-surface:  #0f1018;
+      --c-border:   rgba(255,255,255,0.07);
+      --c-accent:   #5b6cff;
+      --c-accent2:  #ff5f7e;
+      --c-text:     #e4e5f0;
+      --c-muted:    #72738f;
+      --c-card:     #11121b;
+      --radius:     14px;
+      --ease:       cubic-bezier(.4,0,.2,1);
+    }
 
-nav{
-  position:sticky;top:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 2.5rem;
-  border-bottom:1px solid var(--border);
-  background:var(--bg);
-}
-.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--text);text-decoration:none;}
-.nav-logo span{color:var(--accent);}
-.nav-right{display:flex;align-items:center;gap:1.5rem;}
-.nav-links{display:flex;gap:1.5rem;list-style:none;}
-.nav-links a{font-size:0.85rem;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.nav-links a:hover{color:var(--accent);}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-.theme-toggle{
-  display:flex;align-items:center;gap:6px;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:100px;padding:5px 12px;cursor:pointer;
-  font-size:0.8rem;color:var(--muted);transition:all 0.2s;
-}
-.theme-toggle:hover{border-color:var(--accent);color:var(--accent);}
+    body {
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      background: var(--c-bg);
+      color: var(--c-text);
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
 
-/* --- LUQADA DROPDOWN STYLE --- */
-.lang-dropdown {
-  position: relative;
-  display: inline-block;
-}
-.lang-drop-btn {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 5px 14px;
-  font-size: 0.8rem;
-  font-family: 'Cairo', sans-serif;
-  font-weight: 500;
-  color: var(--text);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
-}
-.lang-drop-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-.lang-drop-btn::after {
-  content: '▼';
-  font-size: 0.6rem;
-  transition: transform 0.2s;
-}
-.lang-dropdown.active .lang-drop-btn::after {
-  transform: rotate(180deg);
-}
-.lang-menu {
-  position: absolute;
-  top: 120%;
-  right: 0;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  list-style: none;
-  min-width: 100px;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(-10px);
-  pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  z-index: 200;
-}
-[dir="rtl"] .lang-menu {
-  right: auto;
-  left: 0;
-}
-.lang-dropdown.active .lang-menu {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-.lang-item {
-  padding: 8px 16px;
-  font-size: 0.85rem;
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-}
-.lang-item:hover {
-  background: rgba(0, 229, 160, 0.1);
-  color: var(--accent);
-}
-.lang-item.active {
-  background: var(--accent);
-  color: #000;
-  font-weight: 700;
-}
+    /* خلفية ضوء ناعمة */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 15% 20%, rgba(91,108,255,.1) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 45% at 85% 75%, rgba(255,95,126,.07) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
 
-/* --- HERO SECTION --- */
-#hero{min-height:100vh;display:flex;align-items:center;padding:6rem 2.5rem 4rem;position:relative;}
-.hero-glow{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.07) 0%,transparent 70%);top:-80px;left:-80px;pointer-events:none;}
-.hero-content{position:relative;z-index:1;max-width:680px;}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--accent);border:1px solid rgba(0,229,160,0.3);padding:5px 14px;border-radius:100px;margin-bottom:1.5rem;}
-.hero-tag::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
-.hero-name{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,7vw,5rem);font-weight:800;line-height:1.05;margin-bottom:0.5rem;letter-spacing:-0.02em;}
-.hero-name .accent{color:var(--accent);}
-.hero-role{font-family:'IBM Plex Mono',monospace;font-size:0.95rem;color:var(--muted);margin-bottom:1.2rem;}
-.hero-role span{color:var(--accent2);}
-.hero-desc{font-size:1rem;color:var(--muted);max-width:480px;margin-bottom:2rem;line-height:1.8;}
-.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+    /* شبكة خلفية */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.013) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.013) 1px, transparent 1px);
+      background-size: 55px 55px;
+      pointer-events: none; z-index: 0;
+    }
 
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:0.9rem;font-family:'Cairo',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;transition:all 0.2s;border:none;}
-.btn-primary{background:var(--accent);color:#000;}
-.btn-primary:hover{opacity:0.85;transform:translateY(-2px);}
-.btn-outline{background:transparent;color:var(--text);border:1px solid var(--border);}
-.btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px);}
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: .9rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(7,8,15,.7);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--c-border);
+      transition: background .3s var(--ease);
+    }
+    nav.scrolled { background: rgba(7,8,15,.96); box-shadow: 0 4px 40px rgba(0,0,0,.5); }
 
-section{padding:4.5rem 2.5rem;border-top:1px solid var(--border);}
-.sec-title{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:2rem;}
+    .nav-logo {
+      font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px; cursor: pointer;
+      background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
 
-.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
-.pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:all 0.22s;position:relative;overflow:hidden;}
-.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.22s;}
-.pcard:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-3px);}
-.pcard:hover::before{opacity:1;}
-.pcard-num{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;color:var(--accent);margin-bottom:0.8rem;}
-.pcard-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;margin-bottom:0.5rem;}
-.pcard-desc{font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;}
-.tech-list{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:1rem;}
-.tech-tag{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;padding:2px 9px;border-radius:4px;background:rgba(0,229,160,0.07);color:var(--accent);border:1px solid rgba(0,229,160,0.15);}
-.pcard-footer{display:flex;align-items:center;justify-content:space-between;}
-.plink{font-size:0.8rem;color:var(--muted);text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:color 0.2s;}
-.plink:hover{color:var(--accent);}
-.del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:0.78rem;padding:4px 8px;border-radius:4px;transition:color 0.2s;}
-.del-btn:hover{color:#ff5555;}
+    .nav-links { display: flex; gap: .15rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--c-muted);
+      font-size: .88rem; font-weight: 600; padding: .42rem .95rem; border-radius: 50px;
+      transition: color .25s, background .25s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--c-text); background: rgba(91,108,255,.15);
+    }
 
-.add-form{border:1px dashed rgba(0,229,160,0.2);border-radius:14px;padding:1.4rem;background:rgba(0,229,160,0.02);margin-top:1.5rem;}
-.add-form-title{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--accent);margin-bottom:1rem;}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.form-grid .full{grid-column:1/-1;}
-input,textarea{width:100%;padding:9px 13px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Cairo',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s;}
-input::placeholder,textarea::placeholder{color:var(--muted);}
-input:focus,textarea:focus{border-color:rgba(0,229,160,0.4);}
-textarea{height:75px;resize:none;}
+    /* ── SECTIONS ── */
+    section {
+      position: relative; z-index: 1;
+      padding: 7rem 2.5rem 5rem;
+      max-width: 1080px; margin: 0 auto;
+    }
 
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.25rem;}
-.sgroup{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.4rem;}
-.sgroup-name{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--accent2);margin-bottom:1.1rem;display:flex;align-items:center;gap:7px;}
-.srow{margin-bottom:12px;}
-.slabel{display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:5px;color:var(--text);}
-.spct{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--muted);}
-.strack{height:3px;background:var(--border);border-radius:3px;overflow:hidden;}
-.sfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));}
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: .75rem; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--c-accent); margin-bottom: .6rem;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 22px; height: 2px;
+      background: var(--c-accent); border-radius: 2px;
+    }
 
-.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem;}
-.citem{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;display:flex;align-items:center;gap:0.9rem;transition:all 0.2s;text-decoration:none;color:inherit;}
-.citem:hover{border-color:rgba(0,229,160,0.3);transform:translateY(-2px);}
-.cicon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-.clabel{font-size:0.75rem;color:var(--muted);margin-bottom:2px;}
-.cval{font-size:0.88rem;font-weight:500;font-family:'IBM Plex Mono',monospace;}
+    .section-title {
+      font-size: clamp(2rem,5vw,2.9rem); font-weight: 900;
+      line-height: 1.15; margin-bottom: 1.1rem; letter-spacing: -1px;
+    }
 
-footer{text-align:center;padding:1.8rem;border-top:1px solid var(--border);color:var(--muted);font-size:0.78rem;font-family:'IBM Plex Mono',monospace;}
-footer span{color:var(--accent);}
-</style>
+    /* ── HERO ── */
+    #home {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; padding-top: 5rem;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .83rem; font-weight: 600; color: var(--c-muted);
+      margin-bottom: 1.4rem;
+      animation: fadeUp .7s ease both;
+    }
+    .hero-eyebrow .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e; box-shadow: 0 0 8px #22c55e;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .hero-name {
+      font-size: clamp(2.8rem,8vw,5.2rem); font-weight: 900;
+      line-height: 1.05; letter-spacing: -2px; margin-bottom: .4rem;
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-name .hl {
+      background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem,2.5vw,1.55rem); font-weight: 300; color: var(--c-muted);
+      margin-bottom: 1.8rem; animation: fadeUp .7s .2s ease both;
+    }
+
+    .typed-wrap {
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    #typed-role {
+      border-left: 3px solid var(--c-accent); padding-left: 6px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%,100% { border-color: var(--c-accent); }
+      50%      { border-color: transparent; }
+    }
+
+    .hero-desc {
+      max-width: 520px; color: var(--c-muted); font-size: 1rem; line-height: 1.85;
+      margin-bottom: 2.2rem; animation: fadeUp .7s .3s ease both;
+    }
+
+    .hero-cta {
+      display: flex; gap: .9rem; flex-wrap: wrap;
+      animation: fadeUp .7s .4s ease both;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: .8rem 1.9rem; border-radius: 50px;
+      font-family: inherit; font-size: .92rem; font-weight: 700;
+      cursor: pointer; text-decoration: none; border: none;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), background .3s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--c-accent), #7a87ff);
+      color: #fff; box-shadow: 0 8px 28px rgba(91,108,255,.35);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 38px rgba(91,108,255,.5); }
+    .btn-outline {
+      background: transparent; color: var(--c-text);
+      border: 1.5px solid var(--c-border);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.2); transform: translateY(-3px); }
+
+    .hero-stats {
+      display: flex; gap: 2.5rem; flex-wrap: wrap;
+      margin-top: 3rem; padding-top: 2.2rem;
+      border-top: 1px solid var(--c-border);
+      animation: fadeUp .7s .5s ease both;
+    }
+    .stat-item { text-align: right; }
+    .stat-number {
+      font-size: 1.9rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--c-accent), var(--c-accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .stat-label { font-size: .78rem; color: var(--c-muted); margin-top: 2px; }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: center;
+    }
+
+    .avatar-wrap { position: relative; }
+
+    .avatar-box {
+      width: 100%; max-width: 340px; aspect-ratio: 1;
+      border-radius: 24px; overflow: hidden;
+      border: 1px solid var(--c-border); position: relative;
+    }
+    .avatar-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .avatar-box::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 55%, rgba(7,8,15,.75));
+    }
+
+    .avatar-ring {
+      position: absolute; width: 108%; height: 108%; top: -4%; left: -4%;
+      border-radius: 28px; border: 1.5px dashed rgba(91,108,255,.22);
+      animation: spin 22s linear infinite; pointer-events: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .avail-badge {
+      position: absolute; bottom: -1rem; left: -1rem;
+      background: var(--c-surface); border: 1px solid var(--c-border);
+      border-radius: 12px; padding: .65rem 1.1rem;
+      display: flex; align-items: center; gap: 9px;
+      font-size: .82rem; font-weight: 600;
+      backdrop-filter: blur(12px); box-shadow: 0 8px 28px rgba(0,0,0,.35);
+    }
+    .avail-badge .dot { width: 9px; height: 9px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 7px #22c55e; animation: pulse 2s ease-in-out infinite; }
+
+    .about-text p { color: var(--c-muted); line-height: 1.88; margin-bottom: 1.1rem; font-size: .97rem; }
+
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: .65rem; margin-top: 1.6rem;
+    }
+    .skill-tag {
+      background: var(--c-card); border: 1px solid var(--c-border);
+      border-radius: 10px; padding: .55rem .85rem;
+      font-size: .82rem; font-weight: 700; color: var(--c-muted);
+      text-align: center; cursor: default;
+      transition: border-color .25s, color .25s, background .25s;
+    }
+    .skill-tag:hover {
+      border-color: rgba(91,108,255,.4); color: var(--c-text);
+      background: rgba(91,108,255,.09);
+    }
+
+    /* ── PORTFOLIO ── */
+    .filter-row {
+      display: flex; gap: .5rem; flex-wrap: wrap; margin: 1.5rem 0 2.2rem;
+    }
+    .filter-btn {
+      padding: .4rem 1.1rem; border-radius: 50px; font-family: inherit;
+      font-size: .82rem; font-weight: 700; cursor: pointer;
+      border: 1.5px solid var(--c-border); background: transparent; color: var(--c-muted);
+      transition: all .25s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: rgba(91,108,255,.15); color: var(--c-text);
+      border-color: rgba(91,108,255,.4);
+    }
+
+    .portfolio-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 1.4rem;
+    }
+
+    .project-card {
+      background: var(--c-card); border: 1px solid var(--c-border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: transform .35s var(--ease), border-color .35s, box-shadow .35s;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(91,108,255,.3);
+      box-shadow: 0 24px 55px rgba(0,0,0,.45), 0 0 0 1px rgba(91,108,255,.12);
+    }
+
+    .project-thumb {
+      height: 185px; overflow: hidden; position: relative;
+    }
+    .project-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s var(--ease);
+      filter: brightness(.72) saturate(.85);
+    }
+    .project-card:hover .project-thumb img { transform: scale(1.06); filter: brightness(.85) saturate(1); }
+
+    .thumb-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(7,8,15,.85));
+      display: flex; align-items: flex-end; padding: 1rem 1.2rem;
+    }
+
+    .project-body { padding: 1.25rem 1.3rem .9rem; }
+
+    .project-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: .65rem; }
+    .project-tag {
+      font-size: .68rem; font-weight: 700; padding: 3px 9px; border-radius: 50px;
+      background: rgba(91,108,255,.13); color: #9ba8ff; letter-spacing: .4px;
+    }
+
+    .project-title { font-size: 1.05rem; font-weight: 700; margin-bottom: .45rem; }
+    .project-desc  { font-size: .86rem; color: var(--c-muted); line-height: 1.7; }
+
+    .project-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 1.3rem; border-top: 1px solid var(--c-border);
+      font-size: .78rem; color: var(--c-muted);
+    }
+    .project-link {
+      color: var(--c-accent); font-weight: 700; text-decoration: none;
+      display: flex; align-items: center; gap: 4px; transition: gap .25s;
+    }
+    .project-link:hover { gap: 8px; }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 2.5rem; align-items: start;
+    }
+
+    .contact-card {
+      background: var(--c-card); border: 1px solid var(--c-border);
+      border-radius: var(--radius); padding: 1.75rem; display: flex; flex-direction: column; gap: .2rem;
+    }
+
+    .contact-item {
+      display: flex; align-items: center; gap: .9rem;
+      padding: .9rem 0; border-bottom: 1px solid var(--c-border);
+    }
+    .contact-item:last-child { border-bottom: none; }
+
+    .c-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(91,108,255,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .c-label { font-size: .72rem; color: var(--c-muted); margin-bottom: 2px; }
+    .c-val { font-weight: 700; font-size: .88rem; color: var(--c-text); }
+
+    .contact-form-box {
+      background: var(--c-card); border: 1px solid var(--c-border);
+      border-radius: var(--radius); padding: 1.75rem;
+    }
+
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label {
+      display: block; font-size: .78rem; font-weight: 700;
+      color: var(--c-muted); margin-bottom: .45rem; letter-spacing: .4px;
+    }
+    .form-control {
+      width: 100%; background: var(--c-surface); border: 1px solid var(--c-border);
+      border-radius: 10px; padding: .75rem .95rem; color: var(--c-text);
+      font-family: inherit; font-size: .93rem; outline: none;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .form-control::placeholder { color: rgba(114,115,143,.45); }
+    .form-control:focus { border-color: rgba(91,108,255,.5); box-shadow: 0 0 0 3px rgba(91,108,255,.11); }
+    .form-control.err    { border-color: rgba(255,95,126,.5);  box-shadow: 0 0 0 3px rgba(255,95,126,.09); }
+    textarea.form-control { resize: vertical; min-height: 120px; }
+
+    .err-msg { font-size: .75rem; color: var(--c-accent2); margin-top: 4px; display: none; }
+    .err-msg.show { display: block; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+
+    .success-toast {
+      display: none; background: rgba(34,197,94,.1); border: 1px solid rgba(34,197,94,.28);
+      border-radius: 10px; padding: .85rem 1.1rem; color: #86efac;
+      font-size: .88rem; font-weight: 600; margin-top: .9rem;
+      align-items: center; gap: 9px;
+    }
+    .success-toast.show { display: flex; animation: fadeUp .4s ease; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center; padding: 2.2rem 2.5rem;
+      border-top: 1px solid var(--c-border);
+      color: var(--c-muted); font-size: .83rem;
+    }
+    footer a { color: var(--c-accent); text-decoration: none; }
+
+    .social-row { display: flex; justify-content: center; gap: .9rem; margin-bottom: 1.1rem; }
+    .soc {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--c-card); border: 1px solid var(--c-border);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 1rem;
+      transition: transform .25s, border-color .25s, background .25s;
+    }
+    .soc:hover { transform: translateY(-4px); border-color: rgba(91,108,255,.4); background: rgba(91,108,255,.1); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform: translateY(22px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes pulse  { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.5);opacity:.6;} }
+
+    .reveal { opacity:0; transform: translateY(32px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .d1{transition-delay:.1s;} .d2{transition-delay:.2s;} .d3{transition-delay:.3s;} .d4{transition-delay:.4s;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:768px){
+      section{padding:5rem 1.2rem 3rem;}
+      nav{padding:.8rem 1.2rem;}
+      .nav-links a{padding:.38rem .55rem;font-size:.8rem;}
+      .about-grid,.contact-grid{grid-template-columns:1fr;}
+      .avatar-box{max-width:240px;}
+      .form-row{grid-template-columns:1fr;}
+      .skills-grid{grid-template-columns:repeat(2,1fr);}
+      .hero-stats{gap:1.4rem;}
+    }
+  </style>
 </head>
 <body>
 
-<nav>
-  <a class="nav-logo" href="#">Omar<span>.</span></a>
-  <div class="nav-right">
+  <!-- NAV -->
+  <nav id="nav">
+    <div class="nav-logo">CS</div>
     <ul class="nav-links">
-      <li><a href="#projects" data-i18n="nav_projects">المشاريع</a></li>
-      <li><a href="#skills" data-i18n="nav_skills">المهارات</a></li>
-      <li><a href="#contact" data-i18n="nav_contact">تواصل</a></li>
+      <li><a href="#home"      class="active">الرئيسية</a></li>
+      <li><a href="#about">من أنا</a></li>
+      <li><a href="#portfolio">أعمالي</a></li>
+      <li><a href="#contact">تواصل</a></li>
     </ul>
-    
-    <div class="lang-dropdown" id="langDropdown">
-      <button class="lang-drop-btn" onclick="toggleLangMenu(event)" id="currentLangBtn">AR</button>
-      <ul class="lang-menu">
-        <li class="lang-item active" onclick="setLang('ar')">AR</li>
-        <li class="lang-item" onclick="setLang('so')">SO</li>
-        <li class="lang-item" onclick="setLang('en')">EN</li>
-      </ul>
+  </nav>
+
+  <!-- ============================================================ HERO -->
+  <section id="home">
+    <p class="hero-eyebrow">
+      <span class="dot"></span>
+      متاح لفرص العمل والمشاريع الجديدة
+    </p>
+
+    <h1 class="hero-name">
+      عمر شافي<br>
+      <span class="hl">Cumar Shaafi</span>
+    </h1>
+
+    <p class="hero-sub typed-wrap">
+      <span id="typed-role">Front-End Web Developer</span>
+    </p>
+
+    <p class="hero-desc">
+      مطور ويب شغوف ببناء واجهات جميلة وسريعة الاستجابة.
+      أؤمن بأن كل سطر كود هو فرصة لصنع تجربة مستخدم لا تُنسى —
+      من الفكرة حتى النشر على الإنترنت.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#portfolio" class="btn btn-primary">🚀 استعرض أعمالي</a>
+      <a href="https://github.com/cumar-shaafi" target="_blank" rel="noopener" class="btn btn-outline">🐙 GitHub</a>
     </div>
 
-    <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 Dark</button>
-  </div>
-</nav>
-
-<section id="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-content">
-    <div class="hero-tag" data-i18n="hero_badge">متاح للعمل</div>
-    <h1 class="hero-name">Omar<br><span class="accent">Shafi</span></h1>
-    <p class="hero-role">// <span>Web Developer</span></p>
-    <p class="hero-desc" data-i18n="hero_desc">أبني مواقع وتطبيقات ويب احترافية بأحدث التقنيات. شغفي هو تحويل الأفكار إلى منتجات رقمية متميزة.</p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn btn-primary" data-i18n="hero_btn1">← مشاريعي</a>
-      <a href="#contact" class="btn btn-outline" data-i18n="hero_btn2">تواصل معي</a>
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <h2 class="sec-title" data-i18n="sec_projects">المشاريع</h2>
-  <div class="projects-grid" id="pg"></div>
-  <div class="add-form">
-    <div class="add-form-title" data-i18n="add_project">+ أضف مشروعك</div>
-    <div class="form-grid">
-      <input id="pt" data-i18n-ph="ph_name" placeholder="اسم المشروع *" />
-      <input id="ptc" data-i18n-ph="ph_tech" placeholder="التقنيات (HTML, CSS, JS)" />
-      <textarea id="pd" class="full" data-i18n-ph="ph_desc" placeholder="وصف المشروع"></textarea>
-      <input id="pl" class="full" data-i18n-ph="ph_link" placeholder="رابط المشروع (اختياري)" />
-    </div>
-    <div style="margin-top:0.9rem">
-      <button class="btn btn-primary" onclick="addProject()" data-i18n="btn_add">إضافة</button>
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <h2 class="sec-title" data-i18n="sec_skills">المهارات</h2>
-  <div class="skills-grid">
-    <div class="sgroup">
-      <div class="sgroup-name" data-i18n="sk_basics">⬡ الأساسيات</div>
-      <div class="srow"><div class="slabel"><span>HTML5</span><span class="spct">90%</span></div><div class="strack"><div class="sfill" style="width:90%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>CSS3</span><span class="spct">85%</span></div><div class="strack"><div class="sfill" style="width:85%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>JavaScript</span><span class="spct">80%</span></div><div class="strack"><div class="sfill" style="width:80%"></div></div></div>
-    </div>
-    <div class="sgroup">
-      <div class="sgroup-name" data-i18n="sk_frameworks">⬡ الأطر والمكتبات</div>
-      <div class="srow"><div class="slabel"><span>React</span><span class="spct">75%</span></div><div class="strack"><div class="sfill" style="width:75%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>Node.js</span><span class="spct">70%</span></div><div class="strack"><div class="sfill" style="width:70%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>Tailwind CSS</span><span class="spct">80%</span></div><div class="strack"><div class="sfill" style="width:80%"></div></div></div>
-    </div>
-    <div class="sgroup">
-      <div class="sgroup-name" data-i18n="sk_tools">⬡ الأدوات</div>
-      <div class="srow"><div class="slabel"><span>Git / GitHub</span><span class="spct">75%</span></div><div class="strack"><div class="sfill" style="width:75%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>VS Code</span><span class="spct">90%</span></div><div class="strack"><div class="sfill" style="width:90%"></div></div></div>
-      <div class="srow"><div class="slabel"><span>Figma</span><span class="spct">65%</span></div><div class="strack"><div class="sfill" style="width:65%"></div></div></div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <h2 class="sec-title" data-i18n="sec_contact">تواصل معي</h2>
-  <div class="contact-grid">
-    <a href="https://wa.me/25263795087" target="_blank" class="citem">
-      <div class="cicon" style="background:rgba(37,211,102,0.1)">📱</div>
-      <div>
-        <div class="clabel" data-i18n="c_whatsapp">واتساب</div>
-        <div class="cval">063795087</div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">مشاريع منجزة</div>
       </div>
-    </a>
-    <a href="tel:+25263795087" class="citem">
-      <div class="cicon" style="background:rgba(0,184,255,0.1)">📞</div>
-      <div>
-        <div class="clabel" data-i18n="c_phone">الهاتف</div>
-        <div class="cval">063795087</div>
+      <div class="stat-item">
+        <div class="stat-number">3</div>
+        <div class="stat-label">تقنيات أساسية</div>
       </div>
-    </a>
-    <div class="citem">
-      <div class="cicon" style="background:rgba(0,229,160,0.1)">🌐</div>
-      <div>
-        <div class="clabel" data-i18n="c_webid">رقم الموقع</div>
-        <div class="cval">3054948</div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">كود نظيف ومنظّم</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">شغف بالتعلم</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <p>Omar <span>Shafi</span> · 2026</p>
-</footer>
+  <!-- ============================================================ ABOUT -->
+  <section id="about">
+    <p class="section-label">من أنا</p>
+    <h2 class="section-title reveal">أبني الويب<br>بشغف وإتقان ✦</h2>
 
-<script>
-const i18n = {
-  ar:{
-    dir:'rtl',lang:'ar',
-    nav_projects:'المشاريع',nav_skills:'المهارات',nav_contact:'تواصل',
-    hero_badge:'متاح للعمل',hero_desc:'أبني مواقع وتطبيقات ويب احترافية بأحدث التقنيات. شغفي هو تحويل الأفكار إلى منتجات رقمية متميزة.',
-    hero_btn1:'← مشاريعي',hero_btn2:'تواصل معي',
-    sec_projects:'المشاريع',sec_skills:'المهارات',sec_contact:'تواصل معي',
-    add_project:'+ أضف مشروعك',btn_add:'إضافة',
-    ph_name:'اسم المشروع *',ph_tech:'التقنيات (HTML, CSS)',ph_desc:'وصف المشروع',ph_link:'رابط المشروع (اختياري)',
-    sk_basics:'⬡ الأساسيات',sk_frameworks:'⬡ الأطر والمكتبات',sk_tools:'⬡ الأدوات',
-    c_whatsapp:'واتساب',c_phone:'الهاتف',c_webid:'رقم الموقع',
-    no_projects:'لم تُضف أي مشاريع بعد — أضف أول مشروع من النموذج أدناه.',
-    view_project:'عرض المشروع',delete:'حذف',
-    theme_dark:'🌙 داكن',theme_light:'☀️ فاتح'
-  },
-  so:{
-    dir:'ltr',lang:'so',
-    nav_projects:'Mashaariicda',nav_skills:'Xirfadaha',nav_contact:'Xiriir',
-    hero_badge:'Diyaar shaqo',hero_desc:'Waxaan dhisaa websiteyo iyo apps xirfadleh. Xiisahaygu waa u rogida fikradaha alaabooyin dhijitaal ah oo heer sare leh.',
-    hero_btn1:'← Mashaariicdayda',hero_btn2:'Ii xiriir',
-    sec_projects:'Mashaariicdayda',sec_skills:'Xirfadaha',sec_contact:'Ii Xiriir',
-    add_project:'+ Ku dar mashruuc',btn_add:'Kudar',
-    ph_name:'Magaca mashrooca *',ph_tech:'Teknoolojiyadaha (HTML, CSS)',ph_desc:'Sharaxaada mashrooca',ph_link:'Xiriirka mashrooca (ikhtiyaari)',
-    sk_basics:'⬡ Aasaaska',sk_frameworks:'⬡ Frameworks',sk_tools:'⬡ Qalab',
-    c_whatsapp:'WhatsApp',c_phone:'Telefoon',c_webid:'Aqoonsiga Mareegta',
-    no_projects:'Weli mashruuc kuma darin — ku dar mashrocaaga koowaad foomka hoose.',
-    view_project:'Arag mashrooca',delete:'Tirtir',
-    theme_dark:'🌙 Madow',theme_light:'☀️ Cad'
-  },
-  en:{
-    dir:'ltr',lang:'en',
-    nav_projects:'Projects',nav_skills:'Skills',nav_contact:'Contact',
-    hero_badge:'Available for work',hero_desc:'I build professional websites and web apps with modern technologies. My passion is turning ideas into outstanding digital products.',
-    hero_btn1:'← My Projects',hero_btn2:'Contact Me',
-    sec_projects:'Projects',sec_skills:'Skills',sec_contact:'Contact Me',
-    add_project:'+ Add a Project',btn_add:'Add',
-    ph_name:'Project name *',ph_tech:'Technologies (HTML, CSS)',ph_desc:'Project description',ph_link:'Project link (optional)',
-    sk_basics:'⬡ Fundamentals',sk_frameworks:'⬡ Frameworks & Libraries',sk_tools:'⬡ Tools',
-    c_whatsapp:'WhatsApp',c_phone:'Phone',c_webid:'Website ID',
-    no_projects:'No projects added yet — add your first project from the form below.',
-    view_project:'View Project',delete:'Delete',
-    theme_dark:'🌙 Dark',theme_light:'☀️ Light'
-  }
-};
+    <div class="about-grid">
 
-let lang = 'ar';
-let darkMode = true;
-let projects = [];
-
-function t(key){ return i18n[lang][key] || key; }
-
-function applyLang(){
-  const cfg = i18n[lang];
-  document.documentElement.setAttribute('lang', cfg.lang);
-  document.documentElement.setAttribute('dir', cfg.dir);
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if(i18n[lang][k]) el.textContent = i18n[lang][k];
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    const k = el.getAttribute('data-i18n-ph');
-    if(i18n[lang][k]) el.placeholder = i18n[lang][k];
-  });
-  renderProjects();
-}
-
-function toggleLangMenu(e) {
-  e.stopPropagation();
-  document.getElementById('langDropdown').classList.toggle('active');
-}
-
-function setLang(l){
-  lang = l;
-  document.getElementById('currentLangBtn').textContent = l.toUpperCase();
-  document.querySelectorAll('.lang-item').forEach(item => {
-    item.classList.remove('active');
-    if(item.textContent === l.toUpperCase()) item.classList.add('active');
-  });
-  document.getElementById('langDropdown').classList.remove('active');
-  applyLang();
-
-  document.body.classList.remove('page-changed');
-  void document.body.offsetWidth; 
-  document.body.classList.add('page-changed');
-}
-
-window.addEventListener('click', () => {
-  document.getElementById('langDropdown').classList.remove('active');
-});
-
-function toggleTheme(){
-  darkMode = !darkMode;
-  document.documentElement.setAttribute('data-theme', darkMode ? '' : 'light');
-  const btn = document.getElementById('theme-btn');
-  btn.textContent = darkMode ? t('theme_dark') : t('theme_light');
-}
-
-function renderProjects(){
-  const grid = document.getElementById('pg');
-  if(!projects.length){
-    grid.innerHTML = `<p style="color:var(--muted);font-size:0.88rem;padding:0.5rem 0;grid-column:1/-1">${t('no_projects')}</p>`;
-    return;
-  }
-  grid.innerHTML = projects.map((p,i) => `
-    <div class="pcard">
-      <div class="pcard-num">// ${String(i+1).padStart(2,'0')}</div>
-      <div class="pcard-title">${p.title}</div>
-      <div class="pcard-desc">${p.desc}</div>
-      <div class="tech-list">${p.tech.split(',').map(x=>`<span class="tech-tag">${x.trim()}</span>`).join('')}</div>
-      <div class="pcard-footer">
-        ${p.link ? `<a href="${p.link}" target="_blank" class="plink">🔗 ${t('view_project')}</a>` : '<span></span>'}
-        <button class="del-btn" onclick="removeProject(${i})">✕ ${t('delete')}</button>
+      <!-- صورة -->
+      <div class="avatar-wrap reveal d1">
+        <div class="avatar-box">
+          <img
+            src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=700&q=80"
+            alt="Cumar Shaafi — مطور ويب"
+          />
+          <div class="avatar-ring"></div>
+        </div>
+        <div class="avail-badge">
+          <span class="dot"></span>
+          متاح للعمل الآن
+        </div>
       </div>
+
+      <!-- نص + مهارات -->
+      <div class="about-text reveal d2">
+        <p>
+          مرحباً! أنا <strong style="color:var(--c-text)">عمر شافي</strong>، مطور ويب أمامي مبتدئ
+          أبني مواقع ويب متجاوبة وجذابة باستخدام HTML وCSS وJavaScript.
+          اكتشفت عالم البرمجة وأسرني — فأصبح شغفي وطريقي.
+        </p>
+        <p>
+          أتعلم كل يوم شيئاً جديداً، أنجز مشاريع حقيقية، وأوثّقها على GitHub.
+          هدفي بناء منتجات ويب تحل مشاكل حقيقية وتُسعد مستخدميها.
+        </p>
+        <p>
+          خارج الشاشة أستمتع بقراءة عن تاريخ التكنولوجيا واستكشاف أدوات التصميم الجديدة.
+        </p>
+
+        <div class="skills-grid">
+          <div class="skill-tag">🌐 HTML5</div>
+          <div class="skill-tag">🎨 CSS3</div>
+          <div class="skill-tag">⚡ JavaScript</div>
+          <div class="skill-tag">🐙 Git</div>
+          <div class="skill-tag">🟣 GitHub</div>
+          <div class="skill-tag">📱 Responsive</div>
+        </div>
+      </div>
+
     </div>
-  `).join('');
-}
+  </section>
 
-function addProject(){
-  const title = document.getElementById('pt').value.trim();
-  if(!title){ document.getElementById('pt').focus(); return; }
-  projects.push({
-    title,
-    desc: document.getElementById('pd').value.trim() || '—',
-    tech: document.getElementById('ptc').value.trim() || 'HTML, CSS, JS',
-    link: document.getElementById('pl').value.trim()
-  });
-  ['pt','pd','ptc','pl'].forEach(id => document.getElementById(id).value='');
-  renderProjects();
-}
+  <!-- ============================================================ PORTFOLIO -->
+  <section id="portfolio">
+    <p class="section-label">أعمالي</p>
+    <h2 class="section-title reveal">مشاريعي المختارة ✦</h2>
+    <p class="reveal d1" style="color:var(--c-muted);max-width:500px;margin-bottom:0">
+      مشاريع بنيتها من الصفر لأطبّق ما تعلمته وأثبت قدرتي على الإنجاز.
+    </p>
 
-function removeProject(i){ projects.splice(i,1); renderProjects(); }
+    <div class="filter-row reveal d2">
+      <button class="filter-btn active" onclick="filterProjects('all', this)">الكل</button>
+      <button class="filter-btn" onclick="filterProjects('html-css', this)">HTML / CSS</button>
+      <button class="filter-btn" onclick="filterProjects('js', this)">JavaScript</button>
+    </div>
 
-applyLang();
-</script>
+    <div class="portfolio-grid" id="proj-grid">
+
+      <!-- مشروع 1 -->
+      <div class="project-card reveal d1" data-cat="html-css">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=700&q=80" alt="موقع شخصي" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <h3 class="project-title">Portfolio الأول</h3>
+          <p class="project-desc">
+            موقعي الشخصي الأول — بني بـ HTML وCSS خالصَين مع تصميم متجاوب لجميع الأجهزة.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>HTML · CSS</span>
+          <a href="https://cumar-shaafi.github.io/portfolio" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+      <!-- مشروع 2 -->
+      <div class="project-card reveal d2" data-cat="js">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1586769852044-692d6e3703f2?w=700&q=80" alt="آلة حاسبة" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">CSS</span>
+          </div>
+          <h3 class="project-title">آلة حاسبة تفاعلية</h3>
+          <p class="project-desc">
+            آلة حاسبة بواجهة عصرية تدعم العمليات الأساسية والمتقدمة مع تأثيرات بصرية أنيقة.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>JS · CSS</span>
+          <a href="https://cumar-shaafi.github.io/calculator" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+      <!-- مشروع 3 -->
+      <div class="project-card reveal d3" data-cat="js">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1540350394557-8d14678e7f91?w=700&q=80" alt="قائمة مهام" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">LocalStorage</span>
+          </div>
+          <h3 class="project-title">تطبيق قائمة المهام</h3>
+          <p class="project-desc">
+            To-Do App يحفظ المهام في المتصفح تلقائياً مع إمكانية الإضافة والحذف والتصنيف.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>JS · HTML · CSS</span>
+          <a href="https://cumar-shaafi.github.io/todo-app" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+      <!-- مشروع 4 -->
+      <div class="project-card reveal d1" data-cat="html-css">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80" alt="موقع مطعم" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS Grid</span>
+          </div>
+          <h3 class="project-title">صفحة هبوط لمطعم</h3>
+          <p class="project-desc">
+            صفحة Landing Page لمطعم وهمي تُبرز القائمة والموقع بتصميم بصري احترافي.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>HTML · CSS</span>
+          <a href="https://cumar-shaafi.github.io/restaurant-page" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+      <!-- مشروع 5 -->
+      <div class="project-card reveal d2" data-cat="js">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1592210454359-9043f067919b?w=700&q=80" alt="تطبيق طقس" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">API</span>
+          </div>
+          <h3 class="project-title">تطبيق الطقس</h3>
+          <p class="project-desc">
+            يجلب بيانات الطقس الحالية لأي مدينة عبر OpenWeatherMap API ويعرضها بشكل أنيق.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>JS · Fetch API</span>
+          <a href="https://cumar-shaafi.github.io/weather-app" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+      <!-- مشروع 6 -->
+      <div class="project-card reveal d3" data-cat="html-css">
+        <div class="project-thumb">
+          <img src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=700&q=80" alt="صفحة تقنية" />
+          <div class="thumb-overlay"></div>
+        </div>
+        <div class="project-body">
+          <div class="project-tags">
+            <span class="project-tag">HTML</span>
+            <span class="project-tag">CSS Flexbox</span>
+          </div>
+          <h3 class="project-title">صفحة تقنية وثائقية</h3>
+          <p class="project-desc">
+            Technical Documentation Page مع شريط تنقل جانبي وعرض مقاطع الكود بتنسيق واضح.
+          </p>
+        </div>
+        <div class="project-footer">
+          <span>HTML · CSS</span>
+          <a href="https://cumar-shaafi.github.io/technical-doc" target="_blank" rel="noopener" class="project-link">عرض مباشر →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================ CONTACT -->
+  <section id="contact">
+    <p class="section-label">تواصل</p>
+    <h2 class="section-title reveal">هل لديك مشروع؟<br>دعنا نتحدث ✦</h2>
+    <p class="reveal d1" style="color:var(--c-muted);max-width:500px;margin-bottom:2.8rem">
+      أنا دائماً مستعد للتعاون في مشاريع جديدة أو فرص تعلّم. راسلني وسأرد في أقرب وقت.
+    </p>
+
+    <div class="contact-grid">
+
+      <!-- معلومات -->
+      <div class="contact-card reveal d1">
+        <div class="contact-item">
+          <div class="c-icon">📧</div>
+          <div>
+            <div class="c-label">البريد الإلكتروني</div>
+            <div class="c-val">cumar.shaafi@email.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">🐙</div>
+          <div>
+            <div class="c-label">GitHub</div>
+            <div class="c-val">github.com/cumar-shaafi</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">📍</div>
+          <div>
+            <div class="c-label">الموقع</div>
+            <div class="c-val">هرجيسا، الصومال</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">🕐</div>
+          <div>
+            <div class="c-label">وقت الرد المعتاد</div>
+            <div class="c-val">خلال 24 ساعة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- نموذج -->
+      <div class="contact-form-box reveal d2">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="f-name">الاسم *</label>
+            <input type="text" id="f-name" class="form-control" placeholder="اسمك الكريم" />
+            <div class="err-msg" id="f-name-e">هذا الحقل مطلوب</div>
+          </div>
+          <div class="form-group">
+            <label for="f-email">البريد *</label>
+            <input type="email" id="f-email" class="form-control" placeholder="email@example.com" />
+            <div class="err-msg" id="f-email-e">بريد إلكتروني غير صحيح</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-subject">الموضوع *</label>
+          <input type="text" id="f-subject" class="form-control" placeholder="مشروع · تعاون · سؤال..." />
+          <div class="err-msg" id="f-subject-e">هذا الحقل مطلوب</div>
+        </div>
+
+        <div class="form-group">
+          <label for="f-msg">رسالتك *</label>
+          <textarea id="f-msg" class="form-control" placeholder="أخبرني عن فكرتك أو مشروعك..."></textarea>
+          <div class="err-msg" id="f-msg-e">20 حرفاً على الأقل</div>
+        </div>
+
+        <button class="btn btn-primary" id="sendBtn" onclick="sendMsg()" style="width:100%;justify-content:center;font-size:.96rem;">
+          إرسال الرسالة 🚀
+        </button>
+
+        <div class="success-toast" id="okToast">
+          ✅ &nbsp; وصلت رسالتك! سأتواصل معك قريباً يا عمر 🎉
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-row">
+      <a href="https://github.com/cumar-shaafi"   target="_blank" rel="noopener" class="soc" title="GitHub">🐙</a>
+      <a href="https://linkedin.com/in/cumar-shaafi" target="_blank" rel="noopener" class="soc" title="LinkedIn">💼</a>
+      <a href="https://twitter.com/cumar_shaafi"  target="_blank" rel="noopener" class="soc" title="Twitter / X">🐦</a>
+    </div>
+    <p>صُنع بـ ❤️ بواسطة <strong style="color:var(--c-text)">Cumar Shaafi</strong> &nbsp;·&nbsp; جميع الحقوق محفوظة © <span id="yr"></span></p>
+  </footer>
+
+  <!-- ============================================================
+       JavaScript
+  ============================================================ -->
+  <script>
+    /* السنة */
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* ── 1. NAV: تغيير عند التمرير + الرابط النشط ── */
+    const nav = document.getElementById('nav');
+    const links = document.querySelectorAll('.nav-links a');
+    const secs  = document.querySelectorAll('section[id]');
+
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', scrollY > 60);
+      let cur = '';
+      secs.forEach(s => { if (scrollY >= s.offsetTop - 150) cur = s.id; });
+      links.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+      });
+    });
+
+    /* ── 2. Reveal on scroll ── */
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+      });
+    }, { threshold: .1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    /* ── 3. Typewriter ── */
+    const roles = ['Front-End Developer', 'مطور ويب مبتدئ', 'HTML · CSS · JS', 'GitHub Enthusiast'];
+    let ri = 0, ci = 0, del = false;
+    const tyEl = document.getElementById('typed-role');
+
+    (function type() {
+      const word = roles[ri];
+      if (!del) {
+        tyEl.textContent = word.slice(0, ++ci);
+        if (ci === word.length) { del = true; setTimeout(type, 1900); return; }
+      } else {
+        tyEl.textContent = word.slice(0, --ci);
+        if (ci === 0) { del = false; ri = (ri + 1) % roles.length; }
+      }
+      setTimeout(type, del ? 55 : 95);
+    })();
+
+    /* ── 4. فلترة المشاريع ── */
+    function filterProjects(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.project-card').forEach(c => {
+        const show = cat === 'all' || c.dataset.cat === cat;
+        c.style.display = show ? '' : 'none';
+      });
+    }
+
+    /* ── 5. نموذج الاتصال ── */
+    function vf(id, ok) {
+      const el = document.getElementById(id);
+      const er = document.getElementById(id + '-e');
+      const valid = ok(el.value.trim());
+      el.classList.toggle('err', !valid);
+      if (er) er.classList.toggle('show', !valid);
+      return valid;
+    }
+
+    function sendMsg() {
+      const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const ok = [
+        vf('f-name',    v => v.length > 0),
+        vf('f-email',   v => emailRx.test(v)),
+        vf('f-subject', v => v.length > 0),
+        vf('f-msg',     v => v.length >= 20),
+      ].every(Boolean);
+      if (!ok) return;
+
+      const btn = document.getElementById('sendBtn');
+      btn.textContent = '⏳ جارٍ الإرسال...';
+      btn.disabled = true; btn.style.opacity = '.65';
+
+      setTimeout(() => {
+        btn.textContent = '✅ تم الإرسال!';
+        btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+        btn.style.boxShadow  = '0 8px 28px rgba(34,197,94,.35)';
+        document.getElementById('okToast').classList.add('show');
+        ['f-name','f-email','f-subject','f-msg'].forEach(id => document.getElementById(id).value = '');
+        setTimeout(() => {
+          btn.textContent = 'إرسال الرسالة 🚀';
+          btn.disabled = false; btn.style.opacity = '';
+          btn.style.background = btn.style.boxShadow = '';
+          document.getElementById('okToast').classList.remove('show');
+        }, 4000);
+      }, 1700);
+    }
+
+    ['f-name','f-email','f-subject','f-msg'].forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        document.getElementById(id).classList.remove('err');
+        const e = document.getElementById(id + '-e');
+        if (e) e.classList.remove('show');
+      });
+    });
+  </script>
+
 </body>
 </html>
